@@ -1,7 +1,7 @@
 BUILD_DIR = ./dist
 CC = gcc
 LD = gcc
-LIB = -I libs/
+LIB = -I zyc-libs/
 CCFLAGS = 
 LDFLAGS = 
 
@@ -9,18 +9,18 @@ QUICK_SORT_RECUR_OBJS =	$(BUILD_DIR)/test_quick_sort_recur.o						\
 												$(BUILD_DIR)/quick_sort_recur.o									\
 												$(BUILD_DIR)/utils.o
 
-$(BUILD_DIR)/test_quick_sort_recur.o: zz-test/test_quick_sort_recur.c		\
+$(BUILD_DIR)/test_quick_sort_recur.o: zyc-test/test_quick_sort_recur.c		\
 																			quick-sort/quick_sort_recur.h			\
-																			libs/utils.h
+																			zyc-libs/utils.h
 	$(CC) -c $< -o $@
 
 $(BUILD_DIR)/quick_sort_recur.o: quick-sort/quick_sort_recur.c					\
 																 quick-sort/quick_sort_recur.h					\
-																 libs/utils.h
+																 zyc-libs/utils.h
 	$(CC) -c $< -o $@
 
-$(BUILD_DIR)/utils.o: libs/utils.c																			\
-											libs/utils.h
+$(BUILD_DIR)/utils.o: zyc-libs/utils.c																			\
+											zyc-libs/utils.h
 	$(CC) -c $< -o $@
 
 $(BUILD_DIR)/test_quick_sort_recur.bin: $(QUICK_SORT_RECUR_OBJS)
