@@ -1,4 +1,4 @@
-#include "../quick-sort/quick_sort_recur.h"
+#include "../algorithms/quick-sort/quick_sort_recur.h"
 #include "../zyc-libs/utils.h"
 
 int main() {
