@@ -4,5 +4,6 @@
 #include "../node/bi_node.h"
 
 BiNode* createBiTreeByArray(int* arr, int len);
+void preOrderPrint(BiNode* tree);
 
 #endif
