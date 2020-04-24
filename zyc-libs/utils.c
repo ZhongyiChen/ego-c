@@ -5,8 +5,8 @@ extern int printf (const char *__restrict __format, ...);
 
 /**
  * Print array
- * @param {int*} arr The initial address of the array
- * @param {int} len The length of the array
+ * @param arr {int*} The initial address of the array
+ * @param len {int} The length of the array
  */
 void print_arr(int* arr, int len) {
   int i = 0;
@@ -18,8 +18,8 @@ void print_arr(int* arr, int len) {
 
 /**
  * Switch two variables
- * @param {int*} a First variable
- * @param {int*} b Second variable
+ * @param a {int*} First variable
+ * @param b {int*} Second variable
  */
 void swap(int* a, int* b) {
   *a = *a ^ *b;

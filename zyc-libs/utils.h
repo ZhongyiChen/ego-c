@@ -1,5 +1,5 @@
-#ifndef __LIBS_UTILS_H
-#define __LIBS_UTILS_H
+#ifndef __ZYCLIBS_UTILS_H
+#define __ZYCLIBS_UTILS_H
 
 void print_arr(int* arr, int len);
 

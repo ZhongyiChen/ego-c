@@ -3,9 +3,9 @@
 
 /**
  * Quick sort
- * @param {int*} arr The initial address of the array
- * @param {int} l The leftmost index
- * @param {int} r The rightmost index
+ * @param arr {int*} The initial address of the array
+ * @param l {int} The leftmost index
+ * @param r {int} The rightmost index
  */
 static void sort(int* arr, int l, int r) {
   int tmp = arr[l];     // The reference item
@@ -29,8 +29,8 @@ static void sort(int* arr, int l, int r) {
 
 /**
  * Sorting interface
- * @param {int*} arr The initial address of the array
- * @param {int} len The length of the array
+ * @param arr {int*} The initial address of the array
+ * @param len {int} The length of the array
  */
 void quick_sort(int* arr, int len) {
   sort(arr, 0, len - 1);
