@@ -1,5 +1,5 @@
 /**
- * @author       chenzhongyi <chenzhongyi@chenzhongyi.net>
+ * @author       chenzhongyi <http://chenzhongyi.net/>
  * @copyright    2020 Zhongyi Chen.
  * 
  * You can create a bitree through this codes fragment. For example,
@@ -25,7 +25,8 @@
 #include <malloc.h>
 #include "../node/bi_node.h"
 #include "../../zyc-libs/null.h"
-#include <stdio.h>
+// #include <stdio.h>
+extern int printf (const char *__restrict __format, ...);
 
 /**
  * Add a node to BiTree
@@ -36,12 +37,12 @@
  */
 BiNode* addNode(BiNode* parent, BiNode* l_child, BiNode* r_child, int data) {
   if (data < 0) return NULL;
-  BiNode* T = (BiNode*)malloc(sizeof(BiNode));
-  T->data = data;
-  T->l_child = l_child;
-  T->r_child = r_child;
-  T->parent = parent;
-  return T;
+  BiNode* node = (BiNode*)malloc(sizeof(BiNode));
+  node->data = data;
+  node->l_child = l_child;
+  node->r_child = r_child;
+  node->parent = parent;
+  return node;
 }
 
 /**
@@ -58,6 +59,8 @@ BiNode* deleteNode(BiNode* node) {
   if (node->l_child) deleteNode(node->l_child);
   if (node->r_child) deleteNode(node->r_child);
   free(node);
+
+  return node;
 }
 
 /**
@@ -80,7 +83,7 @@ void trimTmpNodes(BiNode* tree, BiNode* l_tmp, BiNode* r_tmp) {
 }
 
 /**
- * Creating a BiTree through an integer array in a depth-first way
+ * Create a BiTree through an integer array in a depth-first way.
  * @param arr {int*} The initial address of the array
  * @param len {int} The length of the array
  */
@@ -94,7 +97,6 @@ BiNode* createBiTreeByArray(int* arr, int len) {
     return NULL;
   }
   tree = addNode(NULL, l_tmp, r_tmp, arr[0]);
-  printf("root %d\n", tree->data);
 
   last = tree;
   curr = last->l_child;
@@ -107,10 +109,8 @@ BiNode* createBiTreeByArray(int* arr, int len) {
     BiNode* T = addNode(last, l_tmp, r_tmp, arr[i]);
     if (is_l_child) {
       last->l_child = T;
-      printf("left %d\n", arr[i]);
     } else {
       last->r_child = T;
-      printf("right %d\n", arr[i]);
     }
 
     if (i == len - 1) break;  // No item below
