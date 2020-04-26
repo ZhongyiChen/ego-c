@@ -1,10 +1,10 @@
-#ifndef __NODE_DOUBLYLINKNODE_H
-#define __NODE_DOUBLYLINKNODE_H
+#ifndef __NODE_DOUBLYLINKEDNODE_H
+#define __NODE_DOUBLYLINKEDNODE_H
 
 #include "../../zyc-libs/null.h"
 
 /**
- * The structure of normal Doubly LinkNode
+ * The structure of normal Doubly LinkedNode
  */
 typedef struct Node {
   int data;
@@ -13,7 +13,7 @@ typedef struct Node {
 } LinkedNode;
 
 /**
- * The structure of root Doubly LinkNode
+ * The structure of root Doubly LinkedNode
  */
 typedef struct Root {
   int length;

@@ -47,6 +47,25 @@ $(BUILD_DIR)/bi_tree.o: data-structures/tree/bi_tree.c \
 $(BUILD_DIR)/test_bi_tree.bin: $(BI_TREE_OBJS)
 		$(LD) $^ -o $@
 
+
+# SinglyLinkedList files
+SINGLY_LINKED_LIST_OBJS = $(BUILD_DIR)/test_singly_linked_list.o \
+	$(BUILD_DIR)/singly_linked_list.o
+
+$(BUILD_DIR)/test_singly_linked_list.o: zyc-test/test_singly_linked_list.c \
+	data-structures/linked-list/singly_linked_list.h \
+	data-structures/node/singly_linked_node.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/singly_linked_list.o: data-structures/linked-list/singly_linked_list.c \
+	data-structures/linked-list/singly_linked_list.h \
+	data-structures/node/singly_linked_node.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_singly_linked_list.bin: $(SINGLY_LINKED_LIST_OBJS)
+		$(LD) $^ -o $@
+
+
 # Common commands
 .PHONY: clean \
 	mk_dir \
@@ -80,3 +99,12 @@ test_bi_tree:
 	@make mk_dir > /dev/null
 	make compile_bi_tree
 	$(BUILD_DIR)/test_bi_tree.bin
+
+
+# SinglyLinkedList commands
+compile_singly_linked_list: $(BUILD_DIR)/test_singly_linked_list.bin
+
+test_singly_linked_list:
+	@make mk_dir > /dev/null
+	@make compile_singly_linked_list
+	@$(BUILD_DIR)/test_singly_linked_list.bin

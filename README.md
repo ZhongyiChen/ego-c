@@ -9,7 +9,14 @@ Ah, I don't know what is the next one.
 ```bash
 # Test the algorithms of quick-sort
 make test_quick_sort_recur
+```
 
+```bash
 # Test the bitree
 make test_bi_tree
+```
+
+```bash
+# Test the singly linked list
+make test_singly_linked_list
 ```

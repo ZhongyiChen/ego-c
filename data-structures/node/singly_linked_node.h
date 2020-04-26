@@ -1,10 +1,10 @@
-#ifndef __NODE_SINGLYLINKNODE_H
-#define __NODE_SINGLYLINKNODE_H
+#ifndef __NODE_SINGLYLINKEDNODE_H
+#define __NODE_SINGLYLINKEDNODE_H
 
 #include "../../zyc-libs/null.h"
 
 /**
- * The structure of normal Singly LinkNode
+ * The structure of normal Singly LinkedNode
  */
 typedef struct Node {
   int data;
@@ -12,7 +12,7 @@ typedef struct Node {
 } LinkedNode;
 
 /**
- * The structure of root Singly LinkNode
+ * The structure of root Singly LinkedNode
  */
 typedef struct Root {
   int length;
