@@ -5,9 +5,8 @@
  */
 
 #include <malloc.h>
-#include "../node/singly_linked_node.h"
 #include "../../zyc-libs/null.h"
-#include "../linked-list/singly_linked_list.h"
+#include "singly_linked_list.h"
 // #include <stdio.h>
 extern int printf (const char *__restrict __format, ...);
 

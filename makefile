@@ -37,14 +37,12 @@ BI_TREE_OBJS = $(BUILD_DIR)/test_bi_tree.o \
 
 $(BUILD_DIR)/test_bi_tree.o: zyc-test/test_bi_tree.c \
 	data-structures/tree/bi_tree.h \
-	data-structures/node/bi_node.h \
 	zyc-libs/utils.h \
 	zyc-libs/null.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/bi_tree.o: data-structures/tree/bi_tree.c \
 	data-structures/tree/bi_tree.h \
-	data-structures/node/bi_node.h \
 	zyc-libs/null.h
 		$(CC) -c $< -o $@
 
@@ -57,13 +55,11 @@ SINGLY_LINKED_LIST_OBJS = $(BUILD_DIR)/test_singly_linked_list.o \
 	$(BUILD_DIR)/singly_linked_list.o
 
 $(BUILD_DIR)/test_singly_linked_list.o: zyc-test/test_singly_linked_list.c \
-	data-structures/linked-list/singly_linked_list.h \
-	data-structures/node/singly_linked_node.h
+	data-structures/linked-list/singly_linked_list.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/singly_linked_list.o: data-structures/linked-list/singly_linked_list.c \
 	data-structures/linked-list/singly_linked_list.h \
-	data-structures/node/singly_linked_node.h \
 	zyc-libs/null.h
 		$(CC) -c $< -o $@
 

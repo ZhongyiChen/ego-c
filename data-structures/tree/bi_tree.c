@@ -23,7 +23,7 @@
  */
 
 #include <malloc.h>
-#include "../node/bi_node.h"
+#include "bi_tree.h"
 #include "../../zyc-libs/null.h"
 // #include <stdio.h>
 extern int printf (const char *__restrict __format, ...);

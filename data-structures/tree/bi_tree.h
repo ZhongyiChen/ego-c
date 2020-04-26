@@ -1,7 +1,15 @@
 #ifndef __TREE_BITREE_H
 #define __TREE_BITREE_H
 
-#include "../node/bi_node.h"
+/**
+ * The structure of BiNode
+ */
+typedef struct Node {
+  int data;
+  struct Node* l_child;
+  struct Node* r_child;
+  struct Node* parent;
+} BiNode;
 
 BiNode* createBiTreeByArray(int* arr, int len);
 

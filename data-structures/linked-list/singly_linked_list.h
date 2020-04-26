@@ -1,8 +1,24 @@
 #ifndef __LINKEDLIST_SINGLYLINKEDLIST_H
 #define __LINKEDLIST_SINGLYLINKEDLIST_H
 
-#include "../node/singly_linked_node.h"
 #include "../../zyc-libs/null.h"
+
+/**
+ * The structure of normal Singly LinkedNode
+ */
+typedef struct Node {
+  int data;
+  struct Node* next;
+} LinkedNode;
+
+/**
+ * The structure of root Singly LinkedNode
+ */
+typedef struct Root {
+  int length;
+  struct LinkedNode* head;
+  struct LinkedNode* tail;
+} LinkedRoot;
 
 void removeNodeByIndex(LinkedRoot* list, int index);
 
