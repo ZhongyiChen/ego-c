@@ -32,11 +32,13 @@ $(BUILD_DIR)/test_quick_sort_recur.bin: $(QUICK_SORT_RECUR_OBJS)
 
 # Bitree files
 BI_TREE_OBJS = $(BUILD_DIR)/test_bi_tree.o \
-	$(BUILD_DIR)/bi_tree.o
+	$(BUILD_DIR)/bi_tree.o \
+	$(BUILD_DIR)/utils.o
 
 $(BUILD_DIR)/test_bi_tree.o: zyc-test/test_bi_tree.c \
 	data-structures/tree/bi_tree.h \
-	data-structures/node/bi_node.h
+	data-structures/node/bi_node.h \
+	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/bi_tree.o: data-structures/tree/bi_tree.c \
@@ -97,8 +99,8 @@ compile_bi_tree: $(BUILD_DIR)/test_bi_tree.bin
 
 test_bi_tree:
 	@make mk_dir > /dev/null
-	make compile_bi_tree
-	$(BUILD_DIR)/test_bi_tree.bin
+	@make compile_bi_tree > /dev/null
+	@$(BUILD_DIR)/test_bi_tree.bin
 
 
 # SinglyLinkedList commands
@@ -106,5 +108,5 @@ compile_singly_linked_list: $(BUILD_DIR)/test_singly_linked_list.bin
 
 test_singly_linked_list:
 	@make mk_dir > /dev/null
-	@make compile_singly_linked_list
+	@make compile_singly_linked_list > /dev/null
 	@$(BUILD_DIR)/test_singly_linked_list.bin

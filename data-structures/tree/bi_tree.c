@@ -148,14 +148,35 @@ BiNode* createBiTreeByArray(int* arr, int len) {
  */
 void preOrderPrint(BiNode* tree) {
   if (NULL == tree) {
-    printf("-1 ");
-    return;
-  }
-  if (tree->data == 0) {
-    printf("0 ");
     return;
   }
   printf("%d ", tree->data);
   preOrderPrint(tree->l_child);
   preOrderPrint(tree->r_child);
+}
+
+/**
+ * Print all nodes in in-order.
+ * @param tree {BiNode*} The root address of a tree
+ */
+void inOrderPrint(BiNode* tree) {
+  if (NULL == tree) {
+    return;
+  }
+  inOrderPrint(tree->l_child);
+  printf("%d ", tree->data);
+  inOrderPrint(tree->r_child);
+}
+
+/**
+ * Print all nodes in post-order.
+ * @param tree {BiNode*} The root address of a tree
+ */
+void postOrderPrint(BiNode* tree) {
+  if (NULL == tree) {
+    return;
+  }
+  postOrderPrint(tree->l_child);
+  postOrderPrint(tree->r_child);
+  printf("%d ", tree->data);
 }
