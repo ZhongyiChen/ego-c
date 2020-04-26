@@ -29,11 +29,11 @@
 extern int printf (const char *__restrict __format, ...);
 
 /**
- * Add a node to BiTree
- * @param parent {BiNode*} the parent of current node
- * @param l_child {BiNode*} the left child of current node
- * @param r_child {BiNode*} the right child of current node
- * @param data {int} the data of child node
+ * Add a node to BiTree.
+ * @param parent {BiNode*} The parent of current node
+ * @param l_child {BiNode*} The left child of current node
+ * @param r_child {BiNode*} The right child of current node
+ * @param data {int} The data of child node
  */
 BiNode* addNode(BiNode* parent, BiNode* l_child, BiNode* r_child, int data) {
   if (data < 0) return NULL;
@@ -46,9 +46,9 @@ BiNode* addNode(BiNode* parent, BiNode* l_child, BiNode* r_child, int data) {
 }
 
 /**
- * Delete a node of BiTree
+ * Remove a node from BiTree.
  */
-BiNode* deleteNode(BiNode* node) {
+BiNode* removeNode(BiNode* node) {
   if (node->parent) {
     if (node == node->parent->l_child) {
       node->parent->l_child = NULL;
@@ -56,8 +56,8 @@ BiNode* deleteNode(BiNode* node) {
       node->parent->r_child = NULL;
     }
   }
-  if (node->l_child) deleteNode(node->l_child);
-  if (node->r_child) deleteNode(node->r_child);
+  if (node->l_child) removeNode(node->l_child);
+  if (node->r_child) removeNode(node->r_child);
   free(node);
 
   return node;
@@ -65,7 +65,7 @@ BiNode* deleteNode(BiNode* node) {
 
 /**
  * Trimming the useless temporary child nodes
- * @param tree {BiNode*} the root address of a tree
+ * @param tree {BiNode*} The root address of a tree
  */
 void trimTmpNodes(BiNode* tree, BiNode* l_tmp, BiNode* r_tmp) {
   if (!tree) return;
@@ -136,15 +136,15 @@ BiNode* createBiTreeByArray(int* arr, int len) {
   }
 
   trimTmpNodes(tree, l_tmp, r_tmp); // Trim the temporary nodes from the tree
-  deleteNode(l_tmp);                // Remove the temorary nodes
-  deleteNode(r_tmp);
+  removeNode(l_tmp);                // Remove the temorary nodes
+  removeNode(r_tmp);
 
   return tree;
 }
 
 /**
- * Printing all nodes in pre-order
- * @param tree {BiNode*} the root address of a tree
+ * Print all nodes in pre-order.
+ * @param tree {BiNode*} The root address of a tree
  */
 void preOrderPrint(BiNode* tree) {
   if (NULL == tree) {
