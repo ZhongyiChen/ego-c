@@ -38,12 +38,14 @@ BI_TREE_OBJS = $(BUILD_DIR)/test_bi_tree.o \
 $(BUILD_DIR)/test_bi_tree.o: zyc-test/test_bi_tree.c \
 	data-structures/tree/bi_tree.h \
 	data-structures/node/bi_node.h \
-	zyc-libs/utils.h
+	zyc-libs/utils.h \
+	zyc-libs/null.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/bi_tree.o: data-structures/tree/bi_tree.c \
 	data-structures/tree/bi_tree.h \
-	data-structures/node/bi_node.h
+	data-structures/node/bi_node.h \
+	zyc-libs/null.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/test_bi_tree.bin: $(BI_TREE_OBJS)
@@ -61,12 +63,29 @@ $(BUILD_DIR)/test_singly_linked_list.o: zyc-test/test_singly_linked_list.c \
 
 $(BUILD_DIR)/singly_linked_list.o: data-structures/linked-list/singly_linked_list.c \
 	data-structures/linked-list/singly_linked_list.h \
-	data-structures/node/singly_linked_node.h
+	data-structures/node/singly_linked_node.h \
+	zyc-libs/null.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/test_singly_linked_list.bin: $(SINGLY_LINKED_LIST_OBJS)
 		$(LD) $^ -o $@
 
+
+# FiniteStack files
+FINITE_STACK_OBJS = $(BUILD_DIR)/test_finite_stack.o \
+	$(BUILD_DIR)/finite_stack.o
+
+$(BUILD_DIR)/test_finite_stack.o: zyc-test/test_finite_stack.c \
+	data-structures/stack/finite_stack.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/finite_stack.o: data-structures/stack/finite_stack.c \
+	data-structures/stack/finite_stack.h \
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_finite_stack.bin: $(FINITE_STACK_OBJS)
+		$(LD) $^ -o $@
 
 # Common commands
 .PHONY: clean \
@@ -75,6 +94,10 @@ $(BUILD_DIR)/test_singly_linked_list.bin: $(SINGLY_LINKED_LIST_OBJS)
 	test_quick_sort_recur \
 	compile_bi_tree \
 	test_bi_tree \
+	compile_singly_linked_list \
+	test_singly_linked_list \
+	compile_finite_stack \
+	test_finite_stack \
 
 clean:
 	cd $(BUILD_DIR) && rm -f ./*
@@ -110,3 +133,12 @@ test_singly_linked_list:
 	@make mk_dir > /dev/null
 	@make compile_singly_linked_list > /dev/null
 	@$(BUILD_DIR)/test_singly_linked_list.bin
+
+
+# FiniteStack commands
+compile_finite_stack: $(BUILD_DIR)/test_finite_stack.bin
+
+test_finite_stack:
+	@make mk_dir > /dev/null
+	@make compile_finite_stack > /dev/null
+	@$(BUILD_DIR)/test_finite_stack.bin

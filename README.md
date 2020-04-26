@@ -20,3 +20,8 @@ make test_bi_tree
 # Test the singly linked list
 make test_singly_linked_list
 ```
+
+```bash
+# Test the finite stack
+make test_finite_stack
+```
