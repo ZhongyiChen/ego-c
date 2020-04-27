@@ -30,9 +30,9 @@ int getIndexOfData(LinkedRoot* list, int data);
 
 void insertNodeByIndex(LinkedRoot* list, int index, int data);
 
-void appendNode(LinkedRoot* list, int data);
+void appendToList(LinkedRoot* list, int data);
 
-void prependNode(LinkedRoot* list, int data);
+void prependToList(LinkedRoot* list, int data);
 
 LinkedRoot* createSinglyLinkedList();
 

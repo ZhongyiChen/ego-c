@@ -12,6 +12,7 @@ extern int printf (const char *__restrict __format, ...);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
+
 /**
  * Create a new node to the list.
  * @param next {LinkedNode*} Indicate the next node
@@ -30,9 +31,9 @@ LinkedNode* createNode(LinkedNode* next, int data) {
  * @param node {LinkedNode*} The node needed to be removed
  * @param pre_node {LinkedNode*} One node before the node
  */
-LinkedNode* removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* pre_node) {
+void removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* pre_node) {
   if (NULL == node) {
-    return NULL;
+    return;
   }
   if (list->head == list->tail) {
     list->head = list->tail = NULL;
@@ -51,7 +52,6 @@ LinkedNode* removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* pre_node)
   }
   free(node);
   list->length--;
-  return node;
 }
 
 /**
@@ -136,11 +136,11 @@ int getIndexOfData(LinkedRoot* list, int data) {
  */
 void insertNodeByIndex(LinkedRoot* list, int index, int data) {
   if (0 == index) {
-    prependNode(list, data);
+    prependToList(list, data);
     return;
   }
   if (list->length == index) {
-    appendNode(list, data);
+    appendToList(list, data);
     return;
   }
   if (index < 0 || index > list->length) {
@@ -165,7 +165,7 @@ void insertNodeByIndex(LinkedRoot* list, int index, int data) {
  * @param list {LinkedRoot*} The list should be appended to
  * @param data {int} The data should be stored
  */
-void appendNode(LinkedRoot* list, int data) {
+void appendToList(LinkedRoot* list, int data) {
   LinkedNode* new_node = createNode(NULL, data);
   LinkedNode* pre_tail = list->tail;
   list->tail = new_node;
@@ -182,7 +182,7 @@ void appendNode(LinkedRoot* list, int data) {
  * @param list {LinkedRoot*} The list should be prepended to
  * @param data {int} The data should be stored
  */
-void prependNode(LinkedRoot* list, int data) {
+void prependToList(LinkedRoot* list, int data) {
   LinkedNode* pre_head = list->head;
   LinkedNode* new_node = createNode(pre_head, data);
   list->head = new_node;

@@ -6,27 +6,27 @@ int main() {
   LinkedRoot* list = createSinglyLinkedList();
 
   printf("Append 3 to list: \n");
-  appendNode(list, 3);
+  appendToList(list, 3);
   printNodes(list);
   printf("\n");
 
   printf("Append 4 to list: \n");
-  appendNode(list, 4);
+  appendToList(list, 4);
   printNodes(list);
   printf("\n");
   
   printf("Append 5 to list: \n");
-  appendNode(list, 5);
+  appendToList(list, 5);
   printNodes(list);
   printf("\n");
   
   printf("Prepend 2 to list: \n");
-  prependNode(list, 2);
+  prependToList(list, 2);
   printNodes(list);
   printf("\n");
   
   printf("Prepend 1 to list: \n");
-  prependNode(list, 1);
+  prependToList(list, 1);
   printNodes(list);
   printf("\n");
   
