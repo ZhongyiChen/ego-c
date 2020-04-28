@@ -22,6 +22,11 @@ make test_singly_linked_list
 ```
 
 ```bash
+# Test the doubly linked list
+make test_doubly_linked_list
+```
+
+```bash
 # Test the finite stack
 make test_finite_stack
 ```

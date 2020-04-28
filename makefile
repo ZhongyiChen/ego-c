@@ -67,6 +67,23 @@ $(BUILD_DIR)/test_singly_linked_list.bin: $(SINGLY_LINKED_LIST_OBJS)
 		$(LD) $^ -o $@
 
 
+# DoublyLinkedList files
+DOUBLY_LINKED_LIST_OBJS = $(BUILD_DIR)/test_doubly_linked_list.o \
+	$(BUILD_DIR)/doubly_linked_list.o
+
+$(BUILD_DIR)/test_doubly_linked_list.o: zyc-test/test_doubly_linked_list.c \
+	data-structures/linked-list/doubly_linked_list.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/doubly_linked_list.o: data-structures/linked-list/doubly_linked_list.c \
+	data-structures/linked-list/doubly_linked_list.h \
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_doubly_linked_list.bin: $(DOUBLY_LINKED_LIST_OBJS)
+		$(LD) $^ -o $@
+
+
 # FiniteStack files
 FINITE_STACK_OBJS = $(BUILD_DIR)/test_finite_stack.o \
 	$(BUILD_DIR)/finite_stack.o
@@ -92,6 +109,8 @@ $(BUILD_DIR)/test_finite_stack.bin: $(FINITE_STACK_OBJS)
 	test_bi_tree \
 	compile_singly_linked_list \
 	test_singly_linked_list \
+	compile_doubly_linked_list \
+	test_doubly_linked_list \
 	compile_finite_stack \
 	test_finite_stack \
 
@@ -129,6 +148,15 @@ test_singly_linked_list:
 	@make mk_dir > /dev/null
 	@make compile_singly_linked_list > /dev/null
 	@$(BUILD_DIR)/test_singly_linked_list.bin
+
+
+# DoublyLinkedList commands
+compile_doubly_linked_list: $(BUILD_DIR)/test_doubly_linked_list.bin
+
+test_doubly_linked_list:
+	@make mk_dir > /dev/null
+	@make compile_doubly_linked_list > /dev/null
+	@$(BUILD_DIR)/test_doubly_linked_list.bin
 
 
 # FiniteStack commands

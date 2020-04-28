@@ -205,7 +205,7 @@ int popFromList(LinkedRoot* list) {
   }
   LinkedNode* prev_node = NULL;
   LinkedNode* node = list->head;      // The default node
-  while (node != list->tail) {
+  while (node != (LinkedNode*)list->tail) {
     prev_node = node;
     node = node->next;
   }

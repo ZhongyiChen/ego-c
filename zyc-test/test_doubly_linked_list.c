@@ -1,9 +1,9 @@
-#include "../data-structures/linked-list/singly_linked_list.h"
+#include "../data-structures/linked-list/doubly_linked_list.h"
 // #include <stdio.h>
 extern int printf (const char *__restrict __format, ...);
 
 int main() {
-  LinkedRoot* list = createSinglyLinkedList();
+  LinkedRoot* list = createDoublyLinkedList();
 
   printf("Append 3 to list: \n");
   appendToList(list, 3);
