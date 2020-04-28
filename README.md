@@ -35,3 +35,8 @@ make test_finite_stack
 # Test the infinite stack
 make test_infinite_stack
 ```
+
+```bash
+# Test the circular queue
+make test_circular_queue
+```

@@ -121,6 +121,23 @@ $(BUILD_DIR)/test_infinite_stack.bin: $(INFINITE_STACK_OBJS)
 		$(LD) $^ -o $@
 
 
+# CircularQueue files
+CIRCULAR_QUEUE_OBJS = $(BUILD_DIR)/test_circular_queue.o \
+	$(BUILD_DIR)/circular_queue.o
+
+$(BUILD_DIR)/test_circular_queue.o: zyc-test/test_circular_queue.c \
+	data-structures/queue/circular_queue.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/circular_queue.o: data-structures/queue/circular_queue.c \
+	data-structures/queue/circular_queue.h \
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_circular_queue.bin: $(CIRCULAR_QUEUE_OBJS)
+		$(LD) $^ -o $@
+
+
 # Common commands
 .PHONY: clean \
 	mk_dir \
@@ -136,6 +153,8 @@ $(BUILD_DIR)/test_infinite_stack.bin: $(INFINITE_STACK_OBJS)
 	test_finite_stack \
 	compile_infinite_stack \
 	test_infinite_stack \
+	compile_circular_queue \
+	test_circular_queue \
 
 clean:
 	cd $(BUILD_DIR) && rm -f ./*
@@ -198,3 +217,12 @@ test_infinite_stack:
 	@make mk_dir > /dev/null
 	@make compile_infinite_stack > /dev/null
 	@$(BUILD_DIR)/test_infinite_stack.bin
+
+
+# CircularQueue commands
+compile_circular_queue: $(BUILD_DIR)/test_circular_queue.bin
+
+test_circular_queue:
+	@make mk_dir > /dev/null
+	@make compile_circular_queue > /dev/null
+	@$(BUILD_DIR)/test_circular_queue.bin
