@@ -21,4 +21,32 @@ typedef struct Root {
   struct LinkedNode* tail;
 } LinkedRoot;
 
+void removeNodeByIndex(LinkedRoot* list, int index);
+
+void removeNodesByData(LinkedRoot* list, int data);
+
+void updateNodeByIndex(LinkedRoot* list, int index, int data);
+
+int getIndexOfData(LinkedRoot* list, int data);
+
+void insertNodeByIndex(LinkedRoot* list, int index, int data);
+
+int unshiftToList(LinkedRoot* list, int data);
+
+int shiftFromList(LinkedRoot* list);
+
+int pushToList(LinkedRoot* list, int data);
+
+int popFromList(LinkedRoot* list);
+
+void appendToList(LinkedRoot* list, int data);
+
+void prependToList(LinkedRoot* list, int data);
+
+LinkedRoot* createDoublyLinkedList();
+
+void destroyList(LinkedRoot* list);
+
+void printList(LinkedRoot* list);
+
 #endif

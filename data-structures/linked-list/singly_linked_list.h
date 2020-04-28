@@ -30,12 +30,22 @@ int getIndexOfData(LinkedRoot* list, int data);
 
 void insertNodeByIndex(LinkedRoot* list, int index, int data);
 
+int unshiftToList(LinkedRoot* list, int data);
+
+int shiftFromList(LinkedRoot* list);
+
+int pushToList(LinkedRoot* list, int data);
+
+int popFromList(LinkedRoot* list);
+
 void appendToList(LinkedRoot* list, int data);
 
 void prependToList(LinkedRoot* list, int data);
 
 LinkedRoot* createSinglyLinkedList();
 
-void printNodes(LinkedRoot* list);
+void destroyList(LinkedRoot* list);
+
+void printList(LinkedRoot* list);
 
 #endif

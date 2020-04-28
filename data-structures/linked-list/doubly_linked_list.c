@@ -28,7 +28,6 @@ LinkedNode* createNode(LinkedNode* prev, LinkedNode* next, int data) {
   return node;
 }
 
-
 /**
  * Remove a node from the list.
  * @param list {LinkedRoot*} The list owned the node
@@ -52,6 +51,108 @@ void removeNode(LinkedRoot* list, LinkedNode* node) {
   }
   free(node);
   list->length--;
+}
+
+/**
+ * Remove a node which meets the index you indicate.
+ * @param list {LinkedRoot*} The list owned the removed node
+ * @param index {int} The index that node located at
+ */
+void removeNodeByIndex(LinkedRoot* list, int index) {
+  if (index < 0 || index + 1 > list->length) {
+    printf("Error: no such index! Nothing could be removed.\n");
+    return;
+  }
+  LinkedNode* node = list->head;      // The default node
+  int i = 0;
+  for (; i < index; i++) {
+    node = node->next;
+  }
+  removeNode(list, node);
+}
+
+/**
+ * Remove the nodes which equal to the indicated data.
+ * @param list {LinkedRoot*} The list owned the removed node
+ * @param data {int} The value
+ */
+void removeNodesByData(LinkedRoot* list, int data) {
+  LinkedNode* node = list->head;      // The default node
+  int i = 0;
+  for (; i < list->length; i++) {
+    if (NULL != node) return;
+    if (data == node->data) removeNode(list, node);
+    node = node->next;
+  }
+}
+
+/**
+ * Update the node with new data.
+ * @param list {LinkedRoot*} The list
+ * @param index {int} The index that node locate at
+ * @param data {int} The new value
+ */
+void updateNodeByIndex(LinkedRoot* list, int index, int data) {
+  if (index < 0 || index + 1 > list->length) {
+    printf("Error: no such index! Nothing could be updated.\n");
+    return;
+  }
+  LinkedNode* node = list->head;      // The default node
+  int i = 0;
+  for (; i < index; i++) {
+    node = node->next;
+  }
+  node->data = data;
+}
+
+/**
+ * Get the index of the node which first own the indicated data
+ * @param list {LinkedRoot*} The list
+ * @param data {int} The value
+ */
+int getIndexOfData(LinkedRoot* list, int data) {
+  LinkedNode* node = list->head;      // The default node
+  int i = 0;
+  while (node && data != node->data) {
+    node = node->next;
+    i++;
+  }
+  if (NULL == node) {
+    return -1;
+  }
+  return i;
+}
+
+/**
+ * Insert a node at the indicated index.
+ * @param list {LinkedRoot*} The list
+ * @param index {int} The index that node should locate at
+ * @param data {int} The value
+ */
+void insertNodeByIndex(LinkedRoot* list, int index, int data) {
+  if (0 == index) {
+    prependToList(list, data);
+    return;
+  }
+  if (list->length == index) {
+    appendToList(list, data);
+    return;
+  }
+  if (index < 0 || index > list->length) {
+    printf("Error: \
+      The length of current list is %d, \
+      index shouldn locate at [0, %d]. \
+    ", list->length, list->length);
+    return;
+  }
+  LinkedNode* prev_node = list->head;
+  int i = 0;
+  for (; i < index - 1; i++) {
+    prev_node = prev_node->next;
+  }
+  LinkedNode* new_node = createNode(prev_node, prev_node->next, data);
+  prev_node->next = new_node;
+  list->length++;
 }
 
 /**
@@ -154,7 +255,7 @@ LinkedRoot* createDoublyLinkedList() {
  * Destroy the doublyLinkedList.
  * @param list {LinkedRoot*} The list
  */
-void createDoublyLinkedList(LinkedRoot* list) {
+void destroyList(LinkedRoot* list) {
   LinkedNode* node = list->head;
   LinkedNode* next;
   while (NULL != node) {
@@ -163,6 +264,18 @@ void createDoublyLinkedList(LinkedRoot* list) {
     node = next;
   }
   free(list);
+}
+
+/**
+ * Print the nodes of the doublyLinkedList.
+ * @param list {LinkedRoot*} The list
+ */
+void printList(LinkedRoot* list) {
+  LinkedNode* node = list->head;
+  while (NULL != node) {
+    printf("%d ", node->data);
+    node = node->next;
+  }
 }
 
 #pragma GCC diagnostic pop

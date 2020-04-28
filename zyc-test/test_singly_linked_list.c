@@ -7,42 +7,42 @@ int main() {
 
   printf("Append 3 to list: \n");
   appendToList(list, 3);
-  printNodes(list);
+  printList(list);
   printf("\n");
 
   printf("Append 4 to list: \n");
   appendToList(list, 4);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Append 5 to list: \n");
   appendToList(list, 5);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Prepend 2 to list: \n");
   prependToList(list, 2);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Prepend 1 to list: \n");
   prependToList(list, 1);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Remove node locates at index 2 of list: \n");
   removeNodeByIndex(list, 2);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Insert 9 to index 2 of list: \n");
   insertNodeByIndex(list, 2, 9);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   printf("Update node locates at index 2 of list with 7: \n");
   updateNodeByIndex(list, 2, 7);
-  printNodes(list);
+  printList(list);
   printf("\n");
   
   return 0;

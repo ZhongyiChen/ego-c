@@ -29,9 +29,9 @@ LinkedNode* createNode(LinkedNode* next, int data) {
  * Remove a node from the list.
  * @param list {LinkedRoot*} The list owned the node
  * @param node {LinkedNode*} The node needed to be removed
- * @param pre_node {LinkedNode*} One node before the node
+ * @param prev_node {LinkedNode*} One node before the node
  */
-void removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* pre_node) {
+void removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* prev_node) {
   if (NULL == node) {
     return;
   }
@@ -40,15 +40,15 @@ void removeNode(LinkedRoot* list, LinkedNode* node, LinkedNode* pre_node) {
   } else if (node == (LinkedNode*)list->head) {
     list->head = node->next;
   } else {
-    if (NULL != pre_node) {
-      pre_node->next = node->next;
+    if (NULL != prev_node) {
+      prev_node->next = node->next;
     } else {
-      pre_node = list->head;
-      while (pre_node->next != node)
-        pre_node = pre_node->next;
-      pre_node->next = node->next;
+      prev_node = list->head;
+      while (prev_node->next != node)
+        prev_node = prev_node->next;
+      prev_node->next = node->next;
     }
-    if ((LinkedNode*)list->tail == node) list->tail = pre_node;
+    if ((LinkedNode*)list->tail == node) list->tail = prev_node;
   }
   free(node);
   list->length--;
@@ -64,14 +64,14 @@ void removeNodeByIndex(LinkedRoot* list, int index) {
     printf("Error: no such index! Nothing could be removed.\n");
     return;
   }
-  LinkedNode* pre_node = NULL;
+  LinkedNode* prev_node = NULL;
   LinkedNode* node = list->head;      // The default node
   int i = 0;
   for (; i < index; i++) {
-    pre_node = node;
+    prev_node = node;
     node = node->next;
   }
-  removeNode(list, node, pre_node);
+  removeNode(list, node, prev_node);
 }
 
 /**
@@ -80,13 +80,13 @@ void removeNodeByIndex(LinkedRoot* list, int index) {
  * @param data {int} The value
  */
 void removeNodesByData(LinkedRoot* list, int data) {
-  LinkedNode* pre_node = NULL;
+  LinkedNode* prev_node = NULL;
   LinkedNode* node = list->head;      // The default node
   int i = 0;
   for (; i < list->length; i++) {
     if (NULL != node) return;
-    if (data == node->data) removeNode(list, node, pre_node);
-    pre_node = node;
+    if (data == node->data) removeNode(list, node, prev_node);
+    prev_node = node;
     node = node->next;
   }
 }
@@ -150,14 +150,69 @@ void insertNodeByIndex(LinkedRoot* list, int index, int data) {
     ", list->length, list->length);
     return;
   }
-  LinkedNode* pre_node = list->head;
+  LinkedNode* prev_node = list->head;
   int i = 0;
   for (; i < index - 1; i++) {
-    pre_node = pre_node->next;
+    prev_node = prev_node->next;
   }
-  LinkedNode* new_node = createNode(pre_node->next, data);
-  pre_node->next = new_node;
+  LinkedNode* new_node = createNode(prev_node->next, data);
+  prev_node->next = new_node;
   list->length++;
+}
+
+/**
+ * Unshift a new node to the end of the list.
+ * @param list {LinkedRoot*} The list
+ * @param data {int} The data should be stored
+ */
+int unshiftToList(LinkedRoot* list, int data) {
+  prependToList(list, data);
+}
+
+/**
+ * Shift a node from the end of the list.
+ * @param list {LinkedRoot*} The list
+ */
+int shiftFromList(LinkedRoot* list) {
+  if (NULL == list->head) {
+    printf("Error: list is empty! Nothing could be shifted!\n");
+    return -9999;
+  }
+  LinkedNode* node = list->head;
+  int data = node->data;
+  removeNode(list, node, NULL);
+
+  return data;
+}
+
+/**
+ * Push a new node to the end of the list.
+ * @param list {LinkedRoot*} The list
+ * @param data {int} The data should be stored
+ */
+int pushToList(LinkedRoot* list, int data) {
+  appendToList(list, data);
+}
+
+/**
+ * Pop a node from the end of the list.
+ * @param list {LinkedRoot*} The list
+ */
+int popFromList(LinkedRoot* list) {
+  if (NULL == list->tail) {
+    printf("Error: list is empty! Nothing could be poped!\n");
+    return -9999;
+  }
+  LinkedNode* prev_node = NULL;
+  LinkedNode* node = list->head;      // The default node
+  while (node != list->tail) {
+    prev_node = node;
+    node = node->next;
+  }
+  int data = node->data;
+  removeNode(list, node, prev_node);
+
+  return data;
 }
 
 /**
@@ -203,11 +258,27 @@ LinkedRoot* createSinglyLinkedList() {
   list->tail = NULL;
   return list;
 }
+
+/**
+ * Destroy the SinglyLinkedList.
+ * @param list {LinkedRoot*} The list
+ */
+void destroyList(LinkedRoot* list) {
+  LinkedNode* node = list->head;
+  LinkedNode* next;
+  while (NULL != node) {
+    next = node->next;
+    free(node);
+    node = next;
+  }
+  free(list);
+}
+
 /**
  * Print nodes' data from head to tail.
  * @param list {LinkedRoot*} The list should be printed.
  */
-void printNodes(LinkedRoot* list) {
+void printList(LinkedRoot* list) {
   LinkedNode* node = list->head;
   while (NULL != node) {
     printf("%d ", node->data);
