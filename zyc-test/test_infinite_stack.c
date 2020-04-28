@@ -13,23 +13,23 @@ int main() {
   }
 
   printf("Push 3 to stack: \n");
-  pushStack(stack, 3);
+  pushToStack(stack, 3);
   printStack(stack);
 
   printf("Push 4 to stack: \n");
-  pushStack(stack, 4);
+  pushToStack(stack, 4);
   printStack(stack);
 
   printf("Push 5 to stack: \n");
-  pushStack(stack, 5);
+  pushToStack(stack, 5);
   printStack(stack);
 
   printf("Push 6 to stack: \n");
-  pushStack(stack, 6);
+  pushToStack(stack, 6);
   printStack(stack);
 
   printf("Push 7 to stack: \n");
-  pushStack(stack, 7);
+  pushToStack(stack, 7);
   printStack(stack);
 
   printf("Is stack empty? ");
@@ -40,16 +40,16 @@ int main() {
   }
 
   printf("Push 8 to stack: \n");
-  pushStack(stack, 8);
+  pushToStack(stack, 8);
   printStack(stack);
 
   printf("Pop from stack: \n");
-  int popData = popStack(stack);
+  int popData = popFromStack(stack);
   printStack(stack);
   printf("The data poped: %d\n", popData);
 
   printf("Pop from stack: \n");
-  popData = popStack(stack);
+  popData = popFromStack(stack);
   printStack(stack);
   printf("The data poped: %d\n", popData);
 

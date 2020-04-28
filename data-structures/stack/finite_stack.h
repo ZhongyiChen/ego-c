@@ -13,9 +13,9 @@ int isFullStack(StackConstructor* stack);
 
 int isEmptyStack(StackConstructor* stack);
 
-int pushStack(StackConstructor* stack, int data);
+int pushToStack(StackConstructor* stack, int data);
 
-int popStack(StackConstructor* stack);
+int popFromStack(StackConstructor* stack);
 
 StackConstructor* createFiniteStack(int total_size);
 

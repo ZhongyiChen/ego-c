@@ -44,7 +44,7 @@ int isEmptyStack(StackConstructor* stack) {
  * @param stack {StackConstructor*} The stack
  * @return {int} 0 means failure, 1 means success
  */
-int pushStack(StackConstructor* stack, int data) {
+int pushToStack(StackConstructor* stack, int data) {
   if (isFullStack(stack)) {
     printf("Error: Push failed! The stack was already full!\n");
     return 0;
@@ -58,7 +58,7 @@ int pushStack(StackConstructor* stack, int data) {
  * @param stack {StackConstructor*} The stack
  * @return {int} The fetched value
  */
-int popStack(StackConstructor* stack) {
+int popFromStack(StackConstructor* stack) {
   if (isEmptyStack(stack)) {
     printf("Error: You cannot pop a value from an empty stack!\n");
     return -9999;
