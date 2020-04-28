@@ -18,7 +18,7 @@ int enqueue(QueueConstructor* queue, int data);
 
 int dequeue(QueueConstructor* queue);
 
-QueueConstructor* createFiniteQueue(int total_size);
+QueueConstructor* createCircularQueue(int total_size);
 
 void destoryQueue(QueueConstructor* queue);
 
