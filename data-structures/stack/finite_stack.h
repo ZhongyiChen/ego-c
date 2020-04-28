@@ -5,22 +5,22 @@ typedef struct {
   int* pool;
   int total_size;         // Total size of the pool
   int cursor;             // The top of the pool
-} FiniteStack;
+} StackConstructor;
 
-int sizeOfStack(FiniteStack* stack);
+int sizeOfStack(StackConstructor* stack);
 
-int isFullStack(FiniteStack* stack);
+int isFullStack(StackConstructor* stack);
 
-int isEmptyStack(FiniteStack* stack);
+int isEmptyStack(StackConstructor* stack);
 
-int pushStack(FiniteStack* stack, int data);
+int pushStack(StackConstructor* stack, int data);
 
-int popStack(FiniteStack* stack);
+int popStack(StackConstructor* stack);
 
-FiniteStack* createFiniteStack(int total_size);
+StackConstructor* createFiniteStack(int total_size);
 
-void destoryFiniteStack(FiniteStack* stack);
+void destoryStack(StackConstructor* stack);
 
-void printStack(FiniteStack* stack);
+void printStack(StackConstructor* stack);
 
 #endif

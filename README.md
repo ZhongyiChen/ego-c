@@ -30,3 +30,8 @@ make test_doubly_linked_list
 # Test the finite stack
 make test_finite_stack
 ```
+
+```bash
+# Test the infinite stack
+make test_infinite_stack
+```

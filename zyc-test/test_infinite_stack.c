@@ -1,19 +1,12 @@
-#include "../data-structures/stack/finite_stack.h"
+#include "../data-structures/stack/infinite_stack.h"
 // #include <stdio.h>
 extern int printf (const char *__restrict __format, ...);
 
 int main() {
-  StackConstructor* stack = createFiniteStack(5);
+  StackConstructor* stack = createInfiniteStack();
 
   printf("Is stack empty? ");
   if (isEmptyStack(stack)) {
-    printf("Yes!\n");
-  } else {
-    printf("No!\n");
-  }
-
-  printf("Is stack full? ");
-  if (isFullStack(stack)) {
     printf("Yes!\n");
   } else {
     printf("No!\n");
@@ -41,13 +34,6 @@ int main() {
 
   printf("Is stack empty? ");
   if (isEmptyStack(stack)) {
-    printf("Yes!\n");
-  } else {
-    printf("No!\n");
-  }
-
-  printf("Is stack full? ");
-  if (isFullStack(stack)) {
     printf("Yes!\n");
   } else {
     printf("No!\n");

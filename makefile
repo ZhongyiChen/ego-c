@@ -100,6 +100,27 @@ $(BUILD_DIR)/finite_stack.o: data-structures/stack/finite_stack.c \
 $(BUILD_DIR)/test_finite_stack.bin: $(FINITE_STACK_OBJS)
 		$(LD) $^ -o $@
 
+
+# InfiniteStack files
+INFINITE_STACK_OBJS = $(BUILD_DIR)/test_infinite_stack.o \
+	$(BUILD_DIR)/infinite_stack.o \
+	$(BUILD_DIR)/singly_linked_list.o
+
+$(BUILD_DIR)/test_infinite_stack.o: zyc-test/test_infinite_stack.c \
+	data-structures/stack/infinite_stack.h \
+	data-structures/linked-list/singly_linked_list.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/infinite_stack.o: data-structures/stack/infinite_stack.c \
+	data-structures/stack/infinite_stack.h \
+	data-structures/linked-list/singly_linked_list.h
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_infinite_stack.bin: $(INFINITE_STACK_OBJS)
+		$(LD) $^ -o $@
+
+
 # Common commands
 .PHONY: clean \
 	mk_dir \
@@ -113,6 +134,8 @@ $(BUILD_DIR)/test_finite_stack.bin: $(FINITE_STACK_OBJS)
 	test_doubly_linked_list \
 	compile_finite_stack \
 	test_finite_stack \
+	compile_infinite_stack \
+	test_infinite_stack \
 
 clean:
 	cd $(BUILD_DIR) && rm -f ./*
@@ -166,3 +189,12 @@ test_finite_stack:
 	@make mk_dir > /dev/null
 	@make compile_finite_stack > /dev/null
 	@$(BUILD_DIR)/test_finite_stack.bin
+
+
+# InfiniteStack commands
+compile_infinite_stack: $(BUILD_DIR)/test_infinite_stack.bin
+
+test_infinite_stack:
+	@make mk_dir > /dev/null
+	@make compile_infinite_stack > /dev/null
+	@$(BUILD_DIR)/test_infinite_stack.bin
