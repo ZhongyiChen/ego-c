@@ -50,11 +50,12 @@ int isEmptyQueue(QueueConstructor* queue) {
 /**
  * Enqueue a value into the queue.
  * @param queue {QueueConstructor*} The queue
+ * @param data {int} The data needed to be stored
  * @return {int} 0 means failure, 1 means success
  */
 int enqueue(QueueConstructor* queue, int data) {
   if (isFullQueue(queue)) {
-    printf("Error: Enqueue failed! The stack was already full!\n");
+    printf("Error: Enqueue failed! The queue was already full!\n");
     return 0;
   }
   if (isEmptyQueue(queue)) {
@@ -85,6 +86,11 @@ int dequeue(QueueConstructor* queue) {
   return data;
 }
 
+/**
+ * Create a new queue with total size.
+ * @param total_size {int} The total size of the new queue
+ * @return {QueueConstructor*} The new queue
+ */
 QueueConstructor* createCircularQueue(int total_size) {
   if (total_size <= 0) {
     printf("Error: The initial size must bigger than zero!\n");

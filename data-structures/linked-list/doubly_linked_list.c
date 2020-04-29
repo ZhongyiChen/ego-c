@@ -276,6 +276,7 @@ void printList(LinkedRoot* list) {
     printf("%d ", node->data);
     node = node->next;
   }
+  printf("\n");
 }
 
 #pragma GCC diagnostic pop

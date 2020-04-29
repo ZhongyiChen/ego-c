@@ -34,6 +34,7 @@ int isEmptyStack(StackConstructor* stack) {
 /**
  * Store a value into the stack.
  * @param stack {StackConstructor*} The stack
+ * @param data {int} The data needed to be stored
  * @return {int} 0 means failure, 1 means success
  */
 int pushToStack(StackConstructor* stack, int data) {

@@ -138,6 +138,26 @@ $(BUILD_DIR)/test_circular_queue.bin: $(CIRCULAR_QUEUE_OBJS)
 		$(LD) $^ -o $@
 
 
+# InfiniteQueue files
+INFINITE_QUEUE_OBJS = $(BUILD_DIR)/test_infinite_queue.o \
+	$(BUILD_DIR)/infinite_queue.o \
+	$(BUILD_DIR)/doubly_linked_list.o
+
+$(BUILD_DIR)/test_infinite_queue.o: zyc-test/test_infinite_queue.c \
+	data-structures/queue/infinite_queue.h \
+	data-structures/linked-list/doubly_linked_list.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/infinite_queue.o: data-structures/queue/infinite_queue.c \
+	data-structures/queue/infinite_queue.h \
+	data-structures/linked-list/doubly_linked_list.h
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_infinite_queue.bin: $(INFINITE_QUEUE_OBJS)
+		$(LD) $^ -o $@
+
+
 # Common commands
 .PHONY: clean \
 	mk_dir \
@@ -155,6 +175,8 @@ $(BUILD_DIR)/test_circular_queue.bin: $(CIRCULAR_QUEUE_OBJS)
 	test_infinite_stack \
 	compile_circular_queue \
 	test_circular_queue \
+	compile_infinite_queue \
+	test_infinite_queue \
 
 clean:
 	cd $(BUILD_DIR) && rm -f ./*
@@ -226,3 +248,12 @@ test_circular_queue:
 	@make mk_dir > /dev/null
 	@make compile_circular_queue > /dev/null
 	@$(BUILD_DIR)/test_circular_queue.bin
+
+
+# InfiniteQueue commands
+compile_infinite_queue: $(BUILD_DIR)/test_infinite_queue.bin
+
+test_infinite_queue:
+	@make mk_dir > /dev/null
+	@make compile_infinite_queue > /dev/null
+	@$(BUILD_DIR)/test_infinite_queue.bin
