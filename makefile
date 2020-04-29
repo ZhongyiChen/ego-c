@@ -17,12 +17,12 @@ QUICK_SORT_RECUR_OBJS =	$(BUILD_DIR)/test_quick_sort_recur.o \
 	$(BUILD_DIR)/utils.o
 
 $(BUILD_DIR)/test_quick_sort_recur.o: zyc-test/test_quick_sort_recur.c \
-	algorithms/quick-sort/quick_sort_recur.h \
+	algorithms/sort/quick_sort_recur.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
-$(BUILD_DIR)/quick_sort_recur.o: algorithms/quick-sort/quick_sort_recur.c \
-	algorithms/quick-sort/quick_sort_recur.h \
+$(BUILD_DIR)/quick_sort_recur.o: algorithms/sort/quick_sort_recur.c \
+	algorithms/sort/quick_sort_recur.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 

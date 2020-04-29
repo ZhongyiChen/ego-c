@@ -1,4 +1,4 @@
-#include "../algorithms/quick-sort/quick_sort_recur.h"
+#include "../algorithms/sort/quick_sort_recur.h"
 #include "../zyc-libs/utils.h"
 // #include <stdio.h>
 extern int printf (const char *__restrict __format, ...);
