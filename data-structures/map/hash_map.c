@@ -60,6 +60,16 @@ void rehashDone(HashMap* map) {
 }
 
 /**
+ * Judge the backup bucket is used or not.
+ * @param map {HashMap*} The map
+ * @return {int} 0 means not be used; 1 means be used
+ */
+int isBackupUsed(HashMap* map) {
+  return (NULL != map->bucket[1] || 
+    WARN_RATE < (double)map->used[0] / map->total[0]);
+}
+
+/**
  * Move the key/val from current bucket to backup bucket.
  * @param map {HashMap*} The map
  */
@@ -71,36 +81,28 @@ void rehash(HashMap* map) {
   if (!map->bucket[1]) {
     map->bucket[1] = (HashItem**)calloc(map->total[1], sizeof(HashItem*));
   }
+  HashItem* item = NULL;
+  HashItem* item_next = NULL;
   while (count < 10) {
-    if (i >= cur_total) return;
-    HashItem* cur_item = cur_bucket[i];
-    if (!cur_item) {
+    if (0 == map->used[0]) break;
+    if (i >= cur_total) break;
+    item = cur_bucket[i];
+    if (!item) {
       i++;
       continue;
     }
-    HashItem* nex_item;
-    while (cur_item) {
-      nex_item = cur_item->next;
-      putToBucket(map, 1, cur_item->key, cur_item->val);
-      free(cur_item);
+    while (item) {
+      item_next = item->next;
+      putToBucket(map, 1, item->key, item->val);
+      free(item);
       map->used[0] -= 1;
-      cur_item = nex_item;
+      item = item_next;
     }
     cur_bucket[i] = NULL;
     i++;
     count++;
   }
   if (0 == map->used[0]) rehashDone(map);
-}
-
-/**
- * Judge the backup bucket is used or not.
- * @param map {HashMap*} The map
- * @return {int} 0 means not be used; 1 means be used
- */
-int isBackupUsed(HashMap* map) {
-  return (NULL != map->bucket[1] || 
-    WARN_RATE < (double)map->used[0] / map->total[0]);
 }
 
 /**
@@ -116,11 +118,18 @@ int putToBucket(HashMap* map, int bucket_index, char* key, int val) {
   int item_index = ELFhash(key, mod);
   HashItem** bucket = map->bucket[bucket_index];
   HashItem* item = bucket[item_index];
+  while (item) {
+    if (cmpstr(item->key, key)) {
+      item->val = val;
+      return 1;
+    }
+    item = item->next;
+  }
   HashItem* hi = (HashItem*)malloc(sizeof(HashItem) + sizeof(char) * sizeof(key));
   if (!hi) return 0;
   cpystr(hi->key, key);
   hi->val = val;
-  hi->next = item;
+  hi->next = bucket[item_index];
   bucket[item_index] = hi;
   map->used[bucket_index] += 1;
   return 1;
@@ -134,6 +143,7 @@ int putToBucket(HashMap* map, int bucket_index, char* key, int val) {
  * @return {HashItem*} The pointer of the hash item
  */
 HashItem* getFromBucket(HashMap* map, int bucket_index, char* key) {
+  if (0 == map->used[bucket_index]) return NULL;
   unsigned int mod = map->total[bucket_index];
   int item_index = ELFhash(key, mod);
   HashItem** bucket = map->bucket[bucket_index];
@@ -153,14 +163,12 @@ HashItem* getFromBucket(HashMap* map, int bucket_index, char* key) {
  * @return {int} 0 means failure; 1 means success
  */
 int putToMap(HashMap* map, char* key, int val) {
-  int is_success;
+  int index = 0;
   if (isBackupUsed(map)) {
     rehash(map);  // Move some items from current bucket to backup bucket
-    is_success = putToBucket(map, 1, key, val);
-    return is_success;
+    index = (NULL == map->bucket[1]) ? 0 : 1;
   }
-  is_success = putToBucket(map, 0, key, val);
-  return is_success;
+  return putToBucket(map, index, key, val);
 }
 
 /**
@@ -171,12 +179,12 @@ int putToMap(HashMap* map, char* key, int val) {
  */
 int getFromMap(HashMap* map, char* key) {
   HashItem* hi;
+  int index = 0;
   if (isBackupUsed(map)) {
     rehash(map);  // Move some items from current bucket to backup bucket
-    hi = getFromBucket(map, 1, key);
-    if (hi) return hi->val;
+    index = (NULL == map->bucket[1]) ? 0 : 1;
   }
-  hi = getFromBucket(map, 0, key);
+  hi = getFromBucket(map, index, key);
   if (hi) return hi->val;
   printf("Error: The key '%s' could not be found.\n", key);
   return -9999;
@@ -207,6 +215,7 @@ HashMap* createHashMap() {
  */
 void destroyBucket(HashMap* map, int bucket_index) {
   HashItem** bucket = map->bucket[bucket_index];
+  if (!bucket) return;
   HashItem* item = NULL;
   HashItem* item_next = NULL;
   int total = map->total[bucket_index];

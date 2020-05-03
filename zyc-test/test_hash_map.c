@@ -51,6 +51,13 @@ int main() {
   printMap(hm);
   printf("\n");
 
+  putToMap(hm, "name11", 97);
+  putToMap(hm, "name25", 51);
+
+  printf("\n");
+  printMap(hm);
+  printf("\n");
+
   destoryMap(hm);
 
   return 0;
