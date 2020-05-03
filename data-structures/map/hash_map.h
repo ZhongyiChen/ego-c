@@ -7,20 +7,24 @@ typedef struct Item {
   char key[];
 } HashItem;
 
+/**
+ * index 0 means current bucket
+ * index 1 means backup bucket
+ */
 typedef struct Map {
-  int current_total;        // Total size of current bucket
-  int current_used;         // Used size of current bucket
-  int backup_total;         // Total size of backup bucket
-  int backup_used;          // Used size of backup bucket
+  int total[2];
+  int used[2];
   HashItem** bucket[2];
 } HashMap;
 
 HashMap* createHashMap();
 
-putToMap(HashMap* map, char* key, int val);
+int putToMap(HashMap* map, char* key, int val);
 
-void cpystr(char* d, char* s);
+int getFromMap(HashMap* map, char* key);
 
-int cmpstr(char* sKey, char* dKey);
+void printMap(HashMap* map);
+
+void destoryMap(HashMap* map);
 
 #endif

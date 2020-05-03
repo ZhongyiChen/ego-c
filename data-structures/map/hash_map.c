@@ -10,7 +10,9 @@
 #include "hash_map.h"
 
 #define INIT_SIZE 11
-#define WARN_RATE 2           // The storage rate should be warned
+#define WARN_RATE 2.0     // The storage rate should be warned
+
+int putToBucket(HashMap* map, int bucket_index, char* key, int val);
 
 /**
  * Get a prime which is bigger almost twice than the source one.
@@ -22,7 +24,7 @@ int getAlmostDoublePrime(int sPrime) {
   for (; dPrime > sPrime; dPrime -= 2) {
     if (isprime(dPrime)) return dPrime;
   }
-  return dPrime * 2;      // Impossible excute this
+  // Impossible reach here
 }
 
 /**
@@ -43,8 +45,53 @@ unsigned int ELFhash(char *key, unsigned int mod) {
   return h % mod;
 }
 
-// rehash() {
-// }
+/**
+ * The necessary operations after rehashing.
+ * @param map {HashMap*} The map
+ */
+void rehashDone(HashMap* map) {
+  free(map->bucket[0]);
+  map->bucket[0] = map->bucket[1];
+  map->total[0] = map->total[1];
+  map->used[0] = map->used[1];
+  map->bucket[1] = NULL;
+  map->total[1] = getAlmostDoublePrime(map->total[0]);
+  map->used[1] = 0;
+}
+
+/**
+ * Move the key/val from current bucket to backup bucket.
+ * @param map {HashMap*} The map
+ */
+void rehash(HashMap* map) {
+  int i = 0;
+  int count = 0;
+  int cur_total = map->total[0];
+  HashItem** cur_bucket = map->bucket[0];
+  if (!map->bucket[1]) {
+    map->bucket[1] = (HashItem**)calloc(map->total[1], sizeof(HashItem*));
+  }
+  while (count < 10) {
+    if (i >= cur_total) return;
+    HashItem* cur_item = cur_bucket[i];
+    if (!cur_item) {
+      i++;
+      continue;
+    }
+    HashItem* nex_item;
+    while (cur_item) {
+      nex_item = cur_item->next;
+      putToBucket(map, 1, cur_item->key, cur_item->val);
+      free(cur_item);
+      map->used[0] -= 1;
+      cur_item = nex_item;
+    }
+    cur_bucket[i] = NULL;
+    i++;
+    count++;
+  }
+  if (0 == map->used[0]) rehashDone(map);
+}
 
 /**
  * Judge the backup bucket is used or not.
@@ -53,38 +100,49 @@ unsigned int ELFhash(char *key, unsigned int mod) {
  */
 int isBackupUsed(HashMap* map) {
   return (NULL != map->bucket[1] || 
-    WARN_RATE < map->current_used / map->current_total);
+    WARN_RATE < (double)map->used[0] / map->total[0]);
 }
 
 /**
  * Put the pair of key/val to the indicated bucket.
- * @param bucket {HashItem**} Which bucket
+ * @param map {HashMap*} The map
+ * @param bucket_index {int} The index of bucket
  * @param key {char*} The key
  * @param val {int} The value
- * @param mod {unsigned int} The size of the bucket
  * @return {int} 0 means failure; 1 means success
  */
-int putToBucket(HashItem** bucket, char* key, int val, unsigned int mod) {
-  int index = ELFhash(key, mod);
+int putToBucket(HashMap* map, int bucket_index, char* key, int val) {
+  unsigned int mod = map->total[bucket_index];
+  int item_index = ELFhash(key, mod);
+  HashItem** bucket = map->bucket[bucket_index];
+  HashItem* item = bucket[item_index];
   HashItem* hi = (HashItem*)malloc(sizeof(HashItem) + sizeof(char) * sizeof(key));
   if (!hi) return 0;
   cpystr(hi->key, key);
   hi->val = val;
-  hi->next = NULL;
-  bucket[index] = hi;
+  hi->next = item;
+  bucket[item_index] = hi;
+  map->used[bucket_index] += 1;
   return 1;
 }
 
 /**
  * Get the hash item by the key.
- * @param bucket {HashItem**} Which bucket
+ * @param map {HashMap*} The map
+ * @param bucket_index {int} The index of bucket
  * @param key {char*} The key
- * @param mod {unsigned int} The size of the bucket
  * @return {HashItem*} The pointer of the hash item
  */
-HashItem* getFromBucket(HashItem** bucket, char* key, unsigned int mod) {
-  int index = ELFhash(key, mod);
-  return bucket[index];
+HashItem* getFromBucket(HashMap* map, int bucket_index, char* key) {
+  unsigned int mod = map->total[bucket_index];
+  int item_index = ELFhash(key, mod);
+  HashItem** bucket = map->bucket[bucket_index];
+  HashItem* item = bucket[item_index];
+  while (item) {
+    if (cmpstr(item->key, key)) return item; 
+    item = item->next;
+  }
+  return item;
 }
 
 /**
@@ -95,24 +153,30 @@ HashItem* getFromBucket(HashItem** bucket, char* key, unsigned int mod) {
  * @return {int} 0 means failure; 1 means success
  */
 int putToMap(HashMap* map, char* key, int val) {
-  int isSuccess;
+  int is_success;
   if (isBackupUsed(map)) {
-    isSuccess = putToBucket(map->bucket[1], key, val, map->backup_total);
-    if (isSuccess) map->backup_used += 1;
-    return isSuccess;
+    rehash(map);  // Move some items from current bucket to backup bucket
+    is_success = putToBucket(map, 1, key, val);
+    return is_success;
   }
-  isSuccess = putToBucket(map->bucket[0], key, val, map->current_total);
-  if (isSuccess) map->current_used += 1;
-  return isSuccess;
+  is_success = putToBucket(map, 0, key, val);
+  return is_success;
 }
 
+/**
+ * Get val from map by key.
+ * @param map {HashMap*} The map
+ * @param key {char*} The key
+ * @return {int} The value you need
+ */
 int getFromMap(HashMap* map, char* key) {
   HashItem* hi;
   if (isBackupUsed(map)) {
-    hi = getFromBucket(map->bucket[0], key, map->current_total);
+    rehash(map);  // Move some items from current bucket to backup bucket
+    hi = getFromBucket(map, 1, key);
     if (hi) return hi->val;
   }
-  hi = getFromBucket(map->bucket[0], key, map->current_total);
+  hi = getFromBucket(map, 0, key);
   if (hi) return hi->val;
   printf("Error: The key '%s' could not be found.\n", key);
   return -9999;
@@ -124,17 +188,88 @@ int getFromMap(HashMap* map, char* key) {
  */
 HashMap* createHashMap() {
   HashMap* hm = (HashMap*)malloc(sizeof(HashMap));
-  hm->current_total = INIT_SIZE;
-  hm->current_used = 0;
-  hm->backup_total = getAlmostDoublePrime(INIT_SIZE);
-  hm->backup_used = 0;
+  
+  hm->total[0] = INIT_SIZE;
+  hm->used[0] = 0;
   hm->bucket[0] = (HashItem**)calloc(INIT_SIZE, sizeof(HashItem*));
+  
+  hm->total[1] = getAlmostDoublePrime(INIT_SIZE);
+  hm->used[1] = 0;
   hm->bucket[1] = NULL;
+
   return hm;
 }
 
-// destoryMap() {
-// }
+/**
+ * Destory the bucket.
+ * @param map {HashMap*} The map
+ * @param bucket_index {int} The index of bucket
+ */
+void destroyBucket(HashMap* map, int bucket_index) {
+  HashItem** bucket = map->bucket[bucket_index];
+  HashItem* item = NULL;
+  HashItem* item_next = NULL;
+  int total = map->total[bucket_index];
+  int i = 0;
+  for (i = 0; i < total; i++) {
+    item = bucket[i];
+    while (item) {
+      item_next = item->next;
+      free(item);
+      item = item_next;
+    }
+  }
+  free(bucket);
+  bucket = NULL;
+}
 
-// printMap() {
-// }
+/**
+ * Destory the hash map.
+ * @param map {HashMap*} The map
+ */
+void destoryMap(HashMap* map) {
+  destroyBucket(map, 0);
+  destroyBucket(map, 1);
+  free(map);
+  map = NULL;
+}
+
+/**
+ * Print the bucket.
+ * @param map {HashMap*} The map
+ * @param bucket_index {int} The index of bucket
+ */
+void printBucket(HashMap* map, int bucket_index) {
+  printf("bucket[%d]:\n", bucket_index);
+  HashItem** bucket = map->bucket[bucket_index];
+  HashItem* item = NULL;
+  int total = map->total[bucket_index];
+  printf("total: %d\n", total);
+  int used = map->used[bucket_index];
+  printf("used: %d\n", used);
+  if (used == 0) return;
+  int i = 0;
+  for (; i < total; i++) {
+    item = bucket[i];
+    if (!item) {
+      printf("[]\n");
+      continue;
+    }
+    while (item) {
+      printf("[%s: %d] ", item->key, item->val);
+      item = item->next;
+    }
+    printf("\n");
+  }
+}
+
+/**
+ * Print the hash map.
+ * @param map {HashMap*} The map
+ * @return {HashMap*} the hash map
+ */
+void printMap(HashMap* map) {
+  printBucket(map, 0);
+  printf("\n");
+  printBucket(map, 1);
+}

@@ -170,15 +170,18 @@ $(BUILD_DIR)/test_infinite_queue.bin: $(INFINITE_QUEUE_OBJS)
 
 # HashMap files
 HASH_MAP_OBJS = $(BUILD_DIR)/test_hash_map.o \
-	$(BUILD_DIR)/hash_map.o
+	$(BUILD_DIR)/hash_map.o \
+	$(BUILD_DIR)/utils.o
 
 $(BUILD_DIR)/test_hash_map.o: zyc-test/test_hash_map.c \
-	data-structures/map/hash_map.h
+	data-structures/map/hash_map.h \
+	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/hash_map.o: data-structures/map/hash_map.c \
 	data-structures/map/hash_map.h \
-	zyc-libs/null.h
+	zyc-libs/null.h \
+	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
 $(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
@@ -304,5 +307,5 @@ compile_hash_map: $(BUILD_DIR)/test_hash_map.bin
 
 test_hash_map:
 	@make mk_dir > /dev/null
-	make compile_hash_map > /dev/null
-	$(BUILD_DIR)/test_hash_map.bin
+	@make compile_hash_map > /dev/null
+	@$(BUILD_DIR)/test_hash_map.bin
