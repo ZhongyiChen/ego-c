@@ -1,6 +1,5 @@
+#include <stdio.h>
 #include "../data-structures/stack/infinite_stack.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 int main() {
   StackConstructor* stack = createInfiniteStack();

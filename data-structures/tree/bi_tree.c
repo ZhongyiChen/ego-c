@@ -22,11 +22,10 @@
  * should do is to ignore them.
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "bi_tree.h"
 #include "../../zyc-libs/null.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 /**
  * Add a node to BiTree.

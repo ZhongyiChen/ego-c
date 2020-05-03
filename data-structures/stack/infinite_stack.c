@@ -6,12 +6,11 @@
  * the memory is still enough.
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "../../zyc-libs/null.h"
 #include "../linked-list/singly_linked_list.h"
 #include "infinite_stack.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 /**
  * Get the current size of a stack.

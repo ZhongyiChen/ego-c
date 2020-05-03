@@ -45,3 +45,8 @@ make test_circular_queue
 # Test the infinite queue
 make test_infinite_queue
 ```
+
+```bash
+# Test the hash map
+make test_hash_map
+```

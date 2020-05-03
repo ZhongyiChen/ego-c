@@ -1,6 +1,5 @@
+#include <stdio.h>
 #include "../data-structures/queue/infinite_queue.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 int main() {
   QueueConstructor* queue = createInfiniteQueue(5);

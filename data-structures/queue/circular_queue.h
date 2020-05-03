@@ -2,10 +2,10 @@
 #define __QUEUE_CIRCULARQUEUE_H
 
 typedef struct {
-  int* pool;
-  int total_size;         // Total size of the pool
-  int head;               // The head of the pool
-  int tail;               // The tail of the pool
+  int* bucket;
+  int total_size;         // Total size of the bucket
+  int head;               // The head of the bucket
+  int tail;               // The tail of the bucket
 } QueueConstructor;
 
 int sizeOfQueue(QueueConstructor* queue);

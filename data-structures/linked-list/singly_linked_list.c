@@ -4,11 +4,10 @@
  * 
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "../../zyc-libs/null.h"
 #include "singly_linked_list.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"

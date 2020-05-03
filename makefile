@@ -6,9 +6,19 @@ LIB = -I zyc-libs/
 
 
 # Common library
+UTILS_OBJS = $(BUILD_DIR)/test_utils.o \
+	$(BUILD_DIR)/utils.o
+
 $(BUILD_DIR)/utils.o: zyc-libs/utils.c \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_utils.o: zyc-test/test_utils.c \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_utils.bin: $(UTILS_OBJS)
+		$(LD) $^ -o $@
 
 
 # Quick sort files
@@ -158,9 +168,28 @@ $(BUILD_DIR)/test_infinite_queue.bin: $(INFINITE_QUEUE_OBJS)
 		$(LD) $^ -o $@
 
 
+# HashMap files
+HASH_MAP_OBJS = $(BUILD_DIR)/test_hash_map.o \
+	$(BUILD_DIR)/hash_map.o
+
+$(BUILD_DIR)/test_hash_map.o: zyc-test/test_hash_map.c \
+	data-structures/map/hash_map.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/hash_map.o: data-structures/map/hash_map.c \
+	data-structures/map/hash_map.h \
+	zyc-libs/null.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
+		$(LD) $^ -o $@
+
+
 # Common commands
 .PHONY: clean \
 	mk_dir \
+	compile_utils \
+	test_utils \
 	compile_quick_sort_recur \
 	test_quick_sort_recur \
 	compile_bi_tree \
@@ -177,6 +206,8 @@ $(BUILD_DIR)/test_infinite_queue.bin: $(INFINITE_QUEUE_OBJS)
 	test_circular_queue \
 	compile_infinite_queue \
 	test_infinite_queue \
+	compile_hash_map \
+	test_hash_map \
 
 clean:
 	cd $(BUILD_DIR) && rm -f ./*
@@ -185,6 +216,15 @@ mk_dir:
 	if [ ! -d $(BUILD_DIR) ];	then \
 		mkdir $(BUILD_DIR); \
 	fi
+
+
+# Utils commands
+compile_utils: $(BUILD_DIR)/test_utils.bin
+
+test_utils:
+	@make mk_dir > /dev/null
+	@make compile_utils > /dev/null
+	@$(BUILD_DIR)/test_utils.bin
 
 
 # Quick sort commands
@@ -257,3 +297,12 @@ test_infinite_queue:
 	@make mk_dir > /dev/null
 	@make compile_infinite_queue > /dev/null
 	@$(BUILD_DIR)/test_infinite_queue.bin
+
+
+# HashMap commands
+compile_hash_map: $(BUILD_DIR)/test_hash_map.bin
+
+test_hash_map:
+	@make mk_dir > /dev/null
+	make compile_hash_map > /dev/null
+	$(BUILD_DIR)/test_hash_map.bin

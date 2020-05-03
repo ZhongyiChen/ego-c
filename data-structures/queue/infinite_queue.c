@@ -4,11 +4,10 @@
  * 
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "../../zyc-libs/null.h"
 #include "infinite_queue.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 /**
  * Get the current size of a queue.

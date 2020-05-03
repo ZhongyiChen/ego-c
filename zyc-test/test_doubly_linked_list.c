@@ -1,6 +1,5 @@
+#include <stdio.h>
 #include "../data-structures/linked-list/doubly_linked_list.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 int main() {
   LinkedRoot* list = createDoublyLinkedList();

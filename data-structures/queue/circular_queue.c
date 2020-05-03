@@ -4,11 +4,10 @@
  * 
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "../../zyc-libs/null.h"
 #include "circular_queue.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 /**
  * Get the current size of a queue.
@@ -63,7 +62,7 @@ int enqueue(QueueConstructor* queue, int data) {
   } else {
     queue->tail = (queue->tail + 1) % queue->total_size;
   }
-  queue->pool[queue->tail] = data;
+  queue->bucket[queue->tail] = data;
   return 1;
 }
 
@@ -77,7 +76,7 @@ int dequeue(QueueConstructor* queue) {
     printf("Error: You cannot dequeue a value from an empty queue!\n");
     return -9999;
   }
-  int data = queue->pool[queue->head];
+  int data = queue->bucket[queue->head];
   if (queue->tail == queue->head) {
     queue->tail = queue->head = -1;
   } else {
@@ -97,7 +96,7 @@ QueueConstructor* createCircularQueue(int total_size) {
     return NULL;
   }
   QueueConstructor* queue = (QueueConstructor*)malloc(sizeof(QueueConstructor));
-  queue->pool = (int*)malloc(sizeof(int) * total_size);
+  queue->bucket = (int*)malloc(sizeof(int) * total_size);
   queue->total_size = total_size;
   queue->head = -1;
   queue->tail = -1;
@@ -109,7 +108,7 @@ QueueConstructor* createCircularQueue(int total_size) {
  * @param queue {QueueConstructor*} The queue
  */
 void destoryQueue(QueueConstructor* queue) {
-  free(queue->pool);
+  free(queue->bucket);
   free(queue);
 }
 
@@ -124,8 +123,8 @@ void printQueue(QueueConstructor* queue) {
   }
   int cursor = queue->head;
   for (; cursor != queue->tail;) {
-    printf("%d ", queue->pool[cursor]);
+    printf("%d ", queue->bucket[cursor]);
     cursor = (cursor + 1) % queue->total_size;
   }
-  printf("%d\n", queue->pool[cursor]);
+  printf("%d\n", queue->bucket[cursor]);
 }

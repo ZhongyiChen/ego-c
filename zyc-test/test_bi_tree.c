@@ -1,14 +1,13 @@
+#include <stdio.h>
 #include "../data-structures/tree/bi_tree.h"
 #include "../zyc-libs/utils.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 int main() {
   int arr[] = {1, 2, 3, 4, -1, -1, 5, -1, -1, 6, -1, -1, 7, 8, -1, -1, 9, -1, -1};
   int len = sizeof(arr) / sizeof(int);
 
   printf("Input array: ");
-  print_arr(arr, len);
+  logarr(arr, len);
 
   BiNode* T = createBiTreeByArray(arr, len);
 

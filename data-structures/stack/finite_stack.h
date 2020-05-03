@@ -2,9 +2,9 @@
 #define __STACK_FINITESTACK_H
 
 typedef struct {
-  int* pool;
-  int total_size;         // Total size of the pool
-  int cursor;             // The top of the pool
+  int* bucket;
+  int total_size;         // Total size of the bucket
+  int cursor;             // The top of the bucket
 } StackConstructor;
 
 int sizeOfStack(StackConstructor* stack);

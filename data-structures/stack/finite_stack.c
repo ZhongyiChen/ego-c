@@ -6,11 +6,10 @@
  * The interfaces are including:
  */
 
+#include <stdio.h>
 #include <malloc.h>
 #include "../../zyc-libs/null.h"
 #include "finite_stack.h"
-// #include <stdio.h>
-extern int printf (const char *__restrict __format, ...);
 
 /**
  * Get the current size of a stack.
@@ -50,7 +49,7 @@ int pushToStack(StackConstructor* stack, int data) {
     printf("Error: Push failed! The stack was already full!\n");
     return 0;
   }
-  stack->pool[++stack->cursor] = data;
+  stack->bucket[++stack->cursor] = data;
   return 1;
 }
 
@@ -64,7 +63,7 @@ int popFromStack(StackConstructor* stack) {
     printf("Error: You cannot pop a value from an empty stack!\n");
     return -9999;
   }
-  return stack->pool[stack->cursor--];
+  return stack->bucket[stack->cursor--];
 }
 
 /**
@@ -78,7 +77,7 @@ StackConstructor* createFiniteStack(int total_size) {
     return NULL;
   }
   StackConstructor* stack = (StackConstructor*)malloc(sizeof(StackConstructor));
-  stack->pool = (int*)malloc(sizeof(int) * total_size);
+  stack->bucket = (int*)malloc(sizeof(int) * total_size);
   stack->total_size = total_size;
   stack->cursor = -1;
   return stack;
@@ -89,7 +88,7 @@ StackConstructor* createFiniteStack(int total_size) {
  * @param stack {StackConstructor*} The stack
  */
 void destoryStack(StackConstructor* stack) {
-  free(stack->pool);
+  free(stack->bucket);
   free(stack);
 }
 
@@ -104,7 +103,7 @@ void printStack(StackConstructor* stack) {
   int len = sizeOfStack(stack);
   int i = 0;
   for (; i < len; i++) {
-    printf("%d ", stack->pool[i]);
+    printf("%d ", stack->bucket[i]);
   }
   printf("\n");
 }
