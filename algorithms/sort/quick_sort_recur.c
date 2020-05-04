@@ -1,3 +1,9 @@
+/**
+ * @author       chenzhongyi <http://chenzhongyi.net/>
+ * @copyright    2020 Zhongyi Chen.
+ * Quick sort an array in recur way.
+ */
+
 #include "../../zyc-libs/utils.h"
 #include "quick_sort_recur.h"
 
@@ -32,6 +38,6 @@ static void sort(int* arr, int l, int r) {
  * @param arr {int*} The initial address of the array
  * @param len {int} The length of the array
  */
-void quick_sort(int* arr, int len) {
+void quickSort(int* arr, int len) {
   sort(arr, 0, len - 1);
 }

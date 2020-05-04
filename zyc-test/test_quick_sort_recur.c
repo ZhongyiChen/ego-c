@@ -9,7 +9,7 @@ int main() {
   printf("Input array: ");
   logarr(arr, len);
 
-  quick_sort(arr, len);
+  quickSort(arr, len);
 
   printf("Output array: ");
   logarr(arr, len);

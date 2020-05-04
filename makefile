@@ -40,6 +40,25 @@ $(BUILD_DIR)/test_quick_sort_recur.bin: $(QUICK_SORT_RECUR_OBJS)
 		$(LD) $^ -o $@
 
 
+# Binary search files
+BI_SEARCH_RECUR_OBJS =	$(BUILD_DIR)/test_bi_search_recur.o \
+	$(BUILD_DIR)/bi_search_recur.o \
+	$(BUILD_DIR)/utils.o
+
+$(BUILD_DIR)/test_bi_search_recur.o: zyc-test/test_bi_search_recur.c \
+	algorithms/search/bi_search_recur.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/bi_search_recur.o: algorithms/search/bi_search_recur.c \
+	algorithms/search/bi_search_recur.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_bi_search_recur.bin: $(BI_SEARCH_RECUR_OBJS)
+		$(LD) $^ -o $@
+
+
 # Bitree files
 BI_TREE_OBJS = $(BUILD_DIR)/test_bi_tree.o \
 	$(BUILD_DIR)/bi_tree.o \
@@ -195,6 +214,8 @@ $(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
 	test_utils \
 	compile_quick_sort_recur \
 	test_quick_sort_recur \
+	compile_bi_search_recur \
+	test_bi_search_recur \
 	compile_bi_tree \
 	test_bi_tree \
 	compile_singly_linked_list \
@@ -237,6 +258,15 @@ test_quick_sort_recur:
 	@make mk_dir > /dev/null
 	@make compile_quick_sort_recur > /dev/null
 	@$(BUILD_DIR)/test_quick_sort_recur.bin
+
+
+# Binary search commands
+compile_bi_search_recur: $(BUILD_DIR)/test_bi_search_recur.bin
+
+test_bi_search_recur:
+	@make mk_dir > /dev/null
+	@make compile_bi_search_recur > /dev/null
+	@$(BUILD_DIR)/test_bi_search_recur.bin
 
 
 # Bitree commands
