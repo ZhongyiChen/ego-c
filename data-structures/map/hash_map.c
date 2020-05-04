@@ -136,6 +136,22 @@ int putToBucket(HashMap* map, int bucket_index, char* key, int val) {
 }
 
 /**
+ * Put a pair of key/val onto map.
+ * @param map {HashMap*} The map
+ * @param key {char*} The key
+ * @param val {int} The value
+ * @return {int} 0 means failure; 1 means success
+ */
+int putToMap(HashMap* map, char* key, int val) {
+  int index = 0;
+  if (isBackupUsed(map)) {
+    rehash(map);  // Move some items from current bucket to backup bucket
+    index = (NULL == map->bucket[1]) ? 0 : 1;
+  }
+  return putToBucket(map, index, key, val);
+}
+
+/**
  * Get the hash item by the key.
  * @param map {HashMap*} The map
  * @param bucket_index {int} The index of bucket
@@ -156,22 +172,6 @@ HashItem* getFromBucket(HashMap* map, int bucket_index, char* key) {
 }
 
 /**
- * Put a pair of key/val onto map.
- * @param map {HashMap*} The map
- * @param key {char*} The key
- * @param val {int} The value
- * @return {int} 0 means failure; 1 means success
- */
-int putToMap(HashMap* map, char* key, int val) {
-  int index = 0;
-  if (isBackupUsed(map)) {
-    rehash(map);  // Move some items from current bucket to backup bucket
-    index = (NULL == map->bucket[1]) ? 0 : 1;
-  }
-  return putToBucket(map, index, key, val);
-}
-
-/**
  * Get val from map by key.
  * @param map {HashMap*} The map
  * @param key {char*} The key
@@ -179,15 +179,70 @@ int putToMap(HashMap* map, char* key, int val) {
  */
 int getFromMap(HashMap* map, char* key) {
   HashItem* hi;
-  int index = 0;
   if (isBackupUsed(map)) {
     rehash(map);  // Move some items from current bucket to backup bucket
-    index = (NULL == map->bucket[1]) ? 0 : 1;
+    if (NULL != map->bucket[1]) {
+      hi = getFromBucket(map, 1, key);
+      if (hi) return hi->val;
+    }
   }
-  hi = getFromBucket(map, index, key);
+  hi = getFromBucket(map, 0, key);
   if (hi) return hi->val;
   printf("Error: The key '%s' could not be found.\n", key);
   return -9999;
+}
+
+/**
+ * Remove the hash item by the key.
+ * @param map {HashMap*} The map
+ * @param bucket_index {int} The index of bucket
+ * @param key {char*} The key
+ * @return {int} The removed val
+ */
+int removeFromBucket(HashMap* map, int bucket_index, char* key) {
+  int val = -9999;
+  if (0 == map->used[bucket_index]) return val;
+  unsigned int mod = map->total[bucket_index];
+  int item_index = ELFhash(key, mod);
+  HashItem** bucket = map->bucket[bucket_index];
+  HashItem* item_prev = NULL;
+  HashItem* item = bucket[item_index];
+  while (item) {
+    if (cmpstr(item->key, key)) {
+      val = item->val;
+      if (item_prev) {
+        item_prev->next = item->next;
+      } else {
+        bucket[item_index] = item->next;
+      }
+      free(item);
+      return val; 
+    }
+    item_prev = item;
+    item = item->next;
+  }
+  return val;
+}
+
+/**
+ * Remove val from map by key.
+ * @param map {HashMap*} The map
+ * @param key {char*} The key
+ * @return {int} The value you remove
+ */
+int removeFromMap(HashMap* map, char* key) {
+  int val;
+  if (isBackupUsed(map)) {
+    rehash(map);  // Move some items from current bucket to backup bucket
+    if (NULL != map->bucket[1]) {
+      val = removeFromBucket(map, 1, key);
+      if (-9999 != val) return val;
+    }
+  }
+  val = removeFromBucket(map, 0, key);
+  if (-9999 != val) return val;
+  printf("Error: The key '%s' is inexistent, nothing could be removed.\n", key);
+  return val;
 }
 
 /**

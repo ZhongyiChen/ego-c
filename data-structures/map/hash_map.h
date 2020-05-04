@@ -23,6 +23,8 @@ int putToMap(HashMap* map, char* key, int val);
 
 int getFromMap(HashMap* map, char* key);
 
+int removeFromMap(HashMap* map, char* key);
+
 void printMap(HashMap* map);
 
 void destoryMap(HashMap* map);

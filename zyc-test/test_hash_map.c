@@ -58,6 +58,13 @@ int main() {
   printMap(hm);
   printf("\n");
 
+  removeFromMap(hm, "name20");
+  removeFromMap(hm, "name26");
+
+  printf("\n");
+  printMap(hm);
+  printf("\n");
+
   destoryMap(hm);
 
   return 0;
