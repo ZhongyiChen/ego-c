@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../algorithms/search/bi_search_recur.h"
+#include "../algorithms/search/bi_search.h"
 #include "../zyc-libs/utils.h"
 
 int main() {

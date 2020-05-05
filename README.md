@@ -9,13 +9,18 @@ Ah, I don't know what is the next one.
 ### Algorithms
 
 ```bash
+# Test the algorithms of bubble sort
+make test_bubble_sort
+```
+
+```bash
 # Test the algorithms of quick sort
-make test_quick_sort_recur
+make test_quick_sort
 ```
 
 ```bash
 # Test the algorithms of binary search
-make test_bi_search_recur
+make test_bi_search
 ```
 
 ### Data structures

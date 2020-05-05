@@ -1,8 +1,7 @@
 /**
  * @author       chenzhongyi <http://chenzhongyi.net/>
  * @copyright    2020 Zhongyi Chen.
- * Search the index of data from an array via binary search
- * in recur way.
+ * Search the index of data from an array via binary search.
  */
 
 /**

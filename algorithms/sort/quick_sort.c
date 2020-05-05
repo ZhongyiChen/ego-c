@@ -1,11 +1,11 @@
 /**
  * @author       chenzhongyi <http://chenzhongyi.net/>
  * @copyright    2020 Zhongyi Chen.
- * Quick sort an array in recur way.
+ * Quick sort an array.
  */
 
 #include "../../zyc-libs/utils.h"
-#include "quick_sort_recur.h"
+#include "quick_sort.h"
 
 /**
  * Quick sort

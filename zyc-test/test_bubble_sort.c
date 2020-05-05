@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../algorithms/sort/quick_sort_recur.h"
+#include "../algorithms/sort/bubble_sort.h"
 #include "../zyc-libs/utils.h"
 
 int main() {
@@ -9,7 +9,7 @@ int main() {
   printf("Input array: ");
   logarr(arr, len);
 
-  quickSort(arr, len);
+  bubbleSort(arr, len);
 
   printf("Output array: ");
   logarr(arr, len);

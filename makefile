@@ -21,41 +21,60 @@ $(BUILD_DIR)/test_utils.bin: $(UTILS_OBJS)
 		$(LD) $^ -o $@
 
 
-# Quick sort files
-QUICK_SORT_RECUR_OBJS =	$(BUILD_DIR)/test_quick_sort_recur.o \
-	$(BUILD_DIR)/quick_sort_recur.o \
+# Bubble sort files
+BUBBLE_SORT_OBJS =	$(BUILD_DIR)/test_bubble_sort.o \
+	$(BUILD_DIR)/bubble_sort.o \
 	$(BUILD_DIR)/utils.o
 
-$(BUILD_DIR)/test_quick_sort_recur.o: zyc-test/test_quick_sort_recur.c \
-	algorithms/sort/quick_sort_recur.h \
+$(BUILD_DIR)/test_bubble_sort.o: zyc-test/test_bubble_sort.c \
+	algorithms/sort/bubble_sort.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
-$(BUILD_DIR)/quick_sort_recur.o: algorithms/sort/quick_sort_recur.c \
-	algorithms/sort/quick_sort_recur.h \
+$(BUILD_DIR)/bubble_sort.o: algorithms/sort/bubble_sort.c \
+	algorithms/sort/bubble_sort.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
-$(BUILD_DIR)/test_quick_sort_recur.bin: $(QUICK_SORT_RECUR_OBJS)
+$(BUILD_DIR)/test_bubble_sort.bin: $(BUBBLE_SORT_OBJS)
+		$(LD) $^ -o $@
+
+
+# Quick sort files
+QUICK_SORT_OBJS =	$(BUILD_DIR)/test_quick_sort.o \
+	$(BUILD_DIR)/quick_sort.o \
+	$(BUILD_DIR)/utils.o
+
+$(BUILD_DIR)/test_quick_sort.o: zyc-test/test_quick_sort.c \
+	algorithms/sort/quick_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/quick_sort.o: algorithms/sort/quick_sort.c \
+	algorithms/sort/quick_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_quick_sort.bin: $(QUICK_SORT_OBJS)
 		$(LD) $^ -o $@
 
 
 # Binary search files
-BI_SEARCH_RECUR_OBJS =	$(BUILD_DIR)/test_bi_search_recur.o \
-	$(BUILD_DIR)/bi_search_recur.o \
+BI_SEARCH_OBJS =	$(BUILD_DIR)/test_bi_search.o \
+	$(BUILD_DIR)/bi_search.o \
 	$(BUILD_DIR)/utils.o
 
-$(BUILD_DIR)/test_bi_search_recur.o: zyc-test/test_bi_search_recur.c \
-	algorithms/search/bi_search_recur.h \
+$(BUILD_DIR)/test_bi_search.o: zyc-test/test_bi_search.c \
+	algorithms/search/bi_search.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
-$(BUILD_DIR)/bi_search_recur.o: algorithms/search/bi_search_recur.c \
-	algorithms/search/bi_search_recur.h \
+$(BUILD_DIR)/bi_search.o: algorithms/search/bi_search.c \
+	algorithms/search/bi_search.h \
 	zyc-libs/utils.h
 		$(CC) -c $< -o $@
 
-$(BUILD_DIR)/test_bi_search_recur.bin: $(BI_SEARCH_RECUR_OBJS)
+$(BUILD_DIR)/test_bi_search.bin: $(BI_SEARCH_OBJS)
 		$(LD) $^ -o $@
 
 
@@ -212,10 +231,12 @@ $(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
 	mk_dir \
 	compile_utils \
 	test_utils \
-	compile_quick_sort_recur \
-	test_quick_sort_recur \
-	compile_bi_search_recur \
-	test_bi_search_recur \
+	compile_bubble_sort \
+	test_bubble_sort \
+	compile_quick_sort \
+	test_quick_sort \
+	compile_bi_search \
+	test_bi_search \
 	compile_bi_tree \
 	test_bi_tree \
 	compile_singly_linked_list \
@@ -251,22 +272,31 @@ test_utils:
 	@$(BUILD_DIR)/test_utils.bin
 
 
-# Quick sort commands
-compile_quick_sort_recur: $(BUILD_DIR)/test_quick_sort_recur.bin
+# Bubble sort commands
+compile_bubble_sort: $(BUILD_DIR)/test_bubble_sort.bin
 
-test_quick_sort_recur:
+test_bubble_sort:
 	@make mk_dir > /dev/null
-	@make compile_quick_sort_recur > /dev/null
-	@$(BUILD_DIR)/test_quick_sort_recur.bin
+	@make compile_bubble_sort > /dev/null
+	@$(BUILD_DIR)/test_bubble_sort.bin
+
+
+# Quick sort commands
+compile_quick_sort: $(BUILD_DIR)/test_quick_sort.bin
+
+test_quick_sort:
+	@make mk_dir > /dev/null
+	@make compile_quick_sort > /dev/null
+	@$(BUILD_DIR)/test_quick_sort.bin
 
 
 # Binary search commands
-compile_bi_search_recur: $(BUILD_DIR)/test_bi_search_recur.bin
+compile_bi_search: $(BUILD_DIR)/test_bi_search.bin
 
-test_bi_search_recur:
+test_bi_search:
 	@make mk_dir > /dev/null
-	@make compile_bi_search_recur > /dev/null
-	@$(BUILD_DIR)/test_bi_search_recur.bin
+	@make compile_bi_search > /dev/null
+	@$(BUILD_DIR)/test_bi_search.bin
 
 
 # Bitree commands
