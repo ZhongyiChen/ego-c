@@ -14,6 +14,11 @@ make test_bubble_sort
 ```
 
 ```bash
+# Test the algorithms of heap sort
+make test_heap_sort
+```
+
+```bash
 # Test the algorithms of quick sort
 make test_quick_sort
 ```

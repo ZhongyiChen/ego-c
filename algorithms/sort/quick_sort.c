@@ -8,7 +8,7 @@
 #include "quick_sort.h"
 
 /**
- * Quick sort
+ * Quick sort.
  * @param arr {int*} The initial address of the array
  * @param l {int} The leftmost index
  * @param r {int} The rightmost index

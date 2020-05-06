@@ -40,6 +40,25 @@ $(BUILD_DIR)/test_bubble_sort.bin: $(BUBBLE_SORT_OBJS)
 		$(LD) $^ -o $@
 
 
+# Heap sort files
+HEAP_SORT_OBJS =	$(BUILD_DIR)/test_heap_sort.o \
+	$(BUILD_DIR)/heap_sort.o \
+	$(BUILD_DIR)/utils.o
+
+$(BUILD_DIR)/test_heap_sort.o: zyc-test/test_heap_sort.c \
+	algorithms/sort/heap_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/heap_sort.o: algorithms/sort/heap_sort.c \
+	algorithms/sort/heap_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_heap_sort.bin: $(HEAP_SORT_OBJS)
+		$(LD) $^ -o $@
+
+
 # Quick sort files
 QUICK_SORT_OBJS =	$(BUILD_DIR)/test_quick_sort.o \
 	$(BUILD_DIR)/quick_sort.o \
@@ -233,6 +252,8 @@ $(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
 	test_utils \
 	compile_bubble_sort \
 	test_bubble_sort \
+	compile_heap_sort \
+	test_heap_sort \
 	compile_quick_sort \
 	test_quick_sort \
 	compile_bi_search \
@@ -279,6 +300,15 @@ test_bubble_sort:
 	@make mk_dir > /dev/null
 	@make compile_bubble_sort > /dev/null
 	@$(BUILD_DIR)/test_bubble_sort.bin
+
+
+# Heap sort commands
+compile_heap_sort: $(BUILD_DIR)/test_heap_sort.bin
+
+test_heap_sort:
+	@make mk_dir > /dev/null
+	@make compile_heap_sort > /dev/null
+	@$(BUILD_DIR)/test_heap_sort.bin
 
 
 # Quick sort commands
