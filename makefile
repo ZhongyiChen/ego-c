@@ -59,6 +59,25 @@ $(BUILD_DIR)/test_selection_sort.bin: $(SELECTION_SORT_OBJS)
 		$(LD) $^ -o $@
 
 
+# Merge sort files
+MERGE_SORT_OBJS =	$(BUILD_DIR)/test_merge_sort.o \
+	$(BUILD_DIR)/merge_sort.o \
+	$(BUILD_DIR)/utils.o
+
+$(BUILD_DIR)/test_merge_sort.o: zyc-test/test_merge_sort.c \
+	algorithms/sort/merge_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/merge_sort.o: algorithms/sort/merge_sort.c \
+	algorithms/sort/merge_sort.h \
+	zyc-libs/utils.h
+		$(CC) -c $< -o $@
+
+$(BUILD_DIR)/test_merge_sort.bin: $(MERGE_SORT_OBJS)
+		$(LD) $^ -o $@
+
+
 # Heap sort files
 HEAP_SORT_OBJS =	$(BUILD_DIR)/test_heap_sort.o \
 	$(BUILD_DIR)/heap_sort.o \
@@ -273,6 +292,8 @@ $(BUILD_DIR)/test_hash_map.bin: $(HASH_MAP_OBJS)
 	test_bubble_sort \
 	compile_selection_sort \
 	test_selection_sort \
+	compile_merge_sort \
+	test_merge_sort \
 	compile_heap_sort \
 	test_heap_sort \
 	compile_quick_sort \
@@ -330,6 +351,15 @@ test_selection_sort:
 	@make mk_dir > /dev/null
 	@make compile_selection_sort > /dev/null
 	@$(BUILD_DIR)/test_selection_sort.bin
+
+
+# Merge sort commands
+compile_merge_sort: $(BUILD_DIR)/test_merge_sort.bin
+
+test_merge_sort:
+	@make mk_dir > /dev/null
+	@make compile_merge_sort > /dev/null
+	@$(BUILD_DIR)/test_merge_sort.bin
 
 
 # Heap sort commands

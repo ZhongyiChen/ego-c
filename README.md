@@ -19,6 +19,11 @@ make test_selection_sort
 ```
 
 ```bash
+# Test the algorithms of merge sort
+make test_merge_sort
+```
+
+```bash
 # Test the algorithms of heap sort
 make test_heap_sort
 ```
